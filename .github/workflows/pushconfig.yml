@@ -1,6 +1,5 @@
 
 name: Rollout API-Gateway config
-
 on:
   push:
     branches:
