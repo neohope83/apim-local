@@ -1,0 +1,24 @@
+
+name: Rollout API-Gateway config
+
+on:
+  push:
+    branches:
+      - main
+      
+jobs:
+  rollout-apigw-config:
+    if: "!contains(github.event.head_commit.message, 'skip ci')"
+    name: Rollout API-GW config
+    runs-on: ubuntu-latest
+    steps:
+      - name: Rollout configuration
+        run: |
+          mkdir  $HOME/.kube
+          echo "${{ secrets.KUBE_CONFIG_DATA }}" > $HOME/.kube/config
+          kubectl -n apim rollout restart deployment apim-apitraffic
+          kubectl -n apim rollout restart deployment apim-apimgr
+      - name: Verify Manager deployment
+        run: kubectl -n apim rollout status deployment/apim-apitraffic
+      - name: Verify Traffic deployment
+        run: kubectl -n apim rollout status deployment/apim-apimgr
