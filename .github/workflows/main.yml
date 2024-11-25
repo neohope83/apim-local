@@ -19,6 +19,6 @@ jobs:
           kubectl -n apim rollout restart deployment apim-apitraffic
           kubectl -n apim rollout restart deployment apim-apimgr
       - name: Verify Manager deployment
-        run: kubectl -n apim rollout status deployment/apim-apitraffic
+        run: kubectl --insecure-skip-tls-verify -n apim rollout status deployment/apim-apitraffic
       - name: Verify Traffic deployment
-        run: kubectl -n apim rollout status deployment/apim-apimgr
+        run: kubectl --insecure-skip-tls-verify -n apim rollout status deployment/apim-apimgr
